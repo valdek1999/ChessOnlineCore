@@ -1,0 +1,194 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="~/js/microsoft/signalr/dist/browser/signalr.js"></script>
+<link rel="stylesheet" type="text/css" href="~/css/chat.css" />
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+
+
+<div class="row mt-5">
+    <div class="col-4">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/9780de63750069.5abb08a676bf5.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Chess Classic</h5>
+                <p class="card-text">Классическая игра в шахматы</p>
+                <a class="btn btn-primary" asp-area="" asp-controller="Chess" asp-action="Index">Chess 1 vs 1</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/9780de63750069.5abb08a676bf5.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Chess Tournament</h5>
+                <p class="card-text">Турнирные шахматы</p>
+                <a class="btn btn-primary" asp-area="" asp-controller="Tournament" asp-action="Index">Chess Tournament</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/9780de63750069.5abb08a676bf5.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Tournament Table</h5>
+                <p class="card-text">Турнирные таблицы</p>
+                <a class="btn btn-primary" asp-area="" asp-controller="Home" asp-action="Privacy">Tournament Table</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5" />
+
+<div class="row">
+    <div class="col-6">
+        <aside>
+            <div class="chat-header">
+               Общий чат
+            </div>
+            <div class="chat bootstrap snippets bootdey">
+                <div class="row">
+                    <div class="message-wrap col-md-8">
+                        <div class="wrap_Scrollbottom container_Scrollbottom">
+                            <div id="msg-atr" class="msg-wrap"></div>
+                            <div class="wrapper_prokrutka"></div>
+                        </div>
+                    </div>
+
+                    <div class="chat__input">
+                        <div class="send-wrap ">
+                            <input id="message" class="form-control send-message" rows="3" placeholder="Ваше сообщение"></input>
+                        </div>
+                        <div class="btn-panel">
+                            <button id="sendBtn" class="btn btn-success" role="button">
+                                <i class="fa fa-share"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <div class="col-6">
+        <div class="list-group">
+            <h3 class="list-group-item list-group-item-action active">Список игроков</h3>
+            @foreach(var user in Model)
+            {
+                <span class="list-group-item list-group-item-action">@user.UserName</span>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<!--
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<div class="container bootstrap snippets bootdey">
+    <div class="row">
+        <div class="message-wrap col-md-8">
+            <div class="wrap_Scrollbottom container_Scrollbottom">
+                <div id="msg-atr" class="
+                     "></div>
+                <div class="wrapper_prokrutka"></div>
+            </div>
+
+
+            <div class="send-wrap ">
+                <textarea id ="message" class="form-control send-message" rows="3" placeholder="Write a reply..."></textarea>
+            </div>
+            <div class="btn-panel">
+                <button id ="sendBtn" class="btn btn-success" role="button">
+                    <i class="fa fa-share"></i> Send Message
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+-->
+
+
+<script>
+    function lastMessageScroll(b) {
+        var e = document.querySelector('.wrapper_prokrutka');
+        if (!e) return;
+
+        e.scrollIntoView({
+            behavior: b || 'auto',
+            block: 'end',
+        });
+    }
+    const hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/Home/Index")
+        .build();
+    var conid;
+    // получение сообщения от сервера
+    hubConnection.on('Receive', function (message, user, connectionId) {
+        let msg = document.createElement("div")
+        msg.className = 'media msg message'
+        let a = document.createElement('a')
+        a.className = 'pull-left'
+        a.href = '#'
+        let img = document.createElement("img")
+        img.className = 'media-object    img-circle'
+        img.style = 'width: 32px; height: 32px;'
+        img.src = 'https://bootdey.com/img/Content/user_2.jpg'
+        a.appendChild(img)
+        msg.appendChild(a);
+        let div_body = document.createElement("div")
+        div_body.className = "media-body"
+        let name = document.createElement("small")
+        name.className = 'media-heading'
+        let mess = document.createElement("small")
+        mess.className = 'col-md-10 text-muted'
+
+        name.textContent = user != null ? user : "anonym";
+        mess.textContent = message
+        div_body.appendChild(name);
+        div_body.appendChild(mess);
+        msg.appendChild(div_body);
+        document.getElementById("msg-atr").appendChild(msg);
+        lastMessageScroll('smooth');
+        /*let userNameElem = document.createElement("b")
+        //userNameElem.appendChild(document.createTextNode(connectionId + ": "));
+        userNameElem.appendChild(document.createTextNode(user + ": "));
+        conid = connectionId;
+        // создает элемент <p> для сообщения пользователя
+        /*let elem = document.createElement("p");
+        elem.appendChild(userNameElem);
+        elem.appendChild(document.createTextNode(message));
+        var firstElem = document.getElementById("chatroom").firstChild;
+        document.getElementById("chatroom").insertBefore(elem, firstElem);*/
+    });
+
+    hubConnection.on('Notify', function (message) {
+
+        // добавляет элемент для диагностического сообщения
+        let notifyElem = document.createElement("b");
+        notifyElem.appendChild(document.createTextNode(message));
+        let elem = document.createElement("p");
+        elem.appendChild(notifyElem);
+        var firstElem = document.getElementById("chatroom").firstChild;
+        document.getElementById("chatroom").insertBefore(elem, firstElem);
+    });
+
+    // отправка сообщения на сервер
+    document.getElementById("sendBtn").addEventListener("click", function (e) {
+        let message = document.getElementById("message").value;
+        hubConnection.invoke('Send', message, '@ViewData["name"]');
+    });
+
+    hubConnection.start();
+
+
+
+
+</script>

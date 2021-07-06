@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="~/css/tournament.css" />
+
+<form asp-action="IndexPost" asp-controller="Chess">
+    <div class="form-group">
+        <input type="submit" value="Добавить новую турнирную игру" class="btn btn-default" />
+    </div>
+</form>
+
+<form asp-action="Join" asp-controller="Chess">
+    <div class="form-group">
+        <input type="text" name="Id" />
+        <input type="submit" value="Подключить к существующему турниру" class="btn btn-default" />
+    </div>
+</form>
+
+foreach
+
+<div class="round-table round">
+    <ul>
+        <li class="round">
+            <ul>
+                <li class="round">
+                    <ul>
+                        <li>
+                            <p>team 1.1</p>
+                        </li>
+                        <li>
+                            <p>team 1.2</p>
+                        </li>
+                    </ul>
+                    <p>winner1</p>
+                </li>
+                <li class="round">
+                    <ul>
+                        <li>
+                            <p>team 2.1</p>
+                        </li>
+                        <li>
+                            <p>team 2.2</p>
+                        </li>
+                    </ul>
+                    <p>winner 2</p>
+                </li>
+            </ul>
+            <p>winner 1-2</p>
+        </li>
+        <li class="round">
+            <ul>
+                <li class="round">
+                    <ul>
+                        <li>
+                            <p>team 3.1</p>
+                        </li>
+                        <li>
+                            <p>team 3.2</p>
+                        </li>
+                    </ul>
+                    <p>winner 3</p>
+                </li>
+                <li class="round">
+                    <ul>
+                        <li>
+                            <p>team 4.1</p>
+                        </li>
+                        <li>
+                            <p>team 4.2</p>
+                        </li>
+                    </ul>
+                    <p>winner 4</p>
+                </li>
+            </ul>
+            <p>winner 3-4</p>
+        </li>
+    </ul>
+    <p>CSS3 Wins!</p>
+</div>

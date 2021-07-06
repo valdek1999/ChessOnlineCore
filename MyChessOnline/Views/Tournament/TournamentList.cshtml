@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MyChessOnline.Tournament>
+    <link rel="stylesheet" type="text/css" href="~/css/layot.css" />
+<p>
+    <a class="btn btn-success" asp-action="Create">Добавить новый турнир</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Количество игроков
+            </th>
+            <th>
+                Подключено 
+            </th>
+            <th>
+                Название
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountPlayer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountConnect)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NamingTournament)
+            </td>
+            <td>
+                <a asp-action="Join" asp-route-id="@item.Id">Войти</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

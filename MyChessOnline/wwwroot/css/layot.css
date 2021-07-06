@@ -1,0 +1,23 @@
+﻿.app-container {
+    min-height: 86vh;
+}
+
+.serarch-compnent {
+    display: flex;
+}
+
+.serarch-compnent .form-control {
+    min-width: 400px;
+}
+
+.serarch-compnent .id-input {
+    width: 100%
+}
+
+.serarch-compnent .crate-button {
+    margin-left: auto;
+}
+
+button, input {
+    border-radius: 0px !important;
+}

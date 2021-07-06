@@ -1,0 +1,41 @@
+.board {
+	width: 640px;
+	height: 640px;
+	border: 15px solid #35363a;
+	box-sizing: content-box !important;
+}
+.square {
+		float: left;
+		width: 80px;
+		height: 80px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+}
+.black {
+	background-color: #999;
+}
+.white {
+	background-color: #eee;
+}
+.figure {
+	font-size: 60px;
+	cursor: pointer;
+}
+
+.body_chess {
+	box-sizing: content-box !important;
+	font-family: auto !important;
+}
+
+.stat { 
+
+}
+
+.stat .jumbotron {
+	padding: 20px;
+	width: 500px;
+	margin: 0;
+	border-radius: 0px !important;
+}
+

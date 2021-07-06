@@ -1,0 +1,51 @@
+﻿@model MyChessOnline.Tournament
+
+<h4>Создание турнира</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+
+                <label asp-for="CountPlayer" class="control-label">Количество игроков: </label>
+                <select asp-for="CountPlayer" class="form-control-sm">
+                    <option value="4">4</option>
+                    <option value="8">8</option>
+                    <option value="16">16</option>
+                </select>
+                <span asp-validation-for="CountPlayer" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="CountConnect" class="control-label"></label>
+                <input asp-for="CountConnect" class="form-control" value="0" />
+                <span asp-validation-for="CountConnect" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="StatusTournament" class="control-label"></label>
+                <input asp-for="StatusTournament" class="form-control" value="0" />
+                <span asp-validation-for="StatusTournament" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NamingTournament" class="control-label">Название турнира:</label>
+                <input asp-for="NamingTournament" class="form-control" />
+                <span asp-validation-for="NamingTournament" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+<div>
+    <a asp-action="Index">Вернуться к списку турниров</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

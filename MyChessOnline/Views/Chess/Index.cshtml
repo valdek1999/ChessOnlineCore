@@ -1,0 +1,71 @@
+﻿@model IEnumerable<MyChessOnline.Game>
+<link rel="stylesheet" type="text/css" href="~/css/layot.css"/>
+
+<div class="serarch-compnent">
+    <form class="id-input" asp-action="Join" asp-controller="Chess">
+        <div class="input-group">
+            <input placeholder="Введите id" type="text" name="Id" class="form-control">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary" type="button">Подключиться</button>
+            </div>
+        </div>
+    </form>
+    <form class="form-input crate-button" asp-action="IndexPost" asp-controller="Chess">
+        <div class="input-group">
+            <input type="submit" value="Добавить новую игру" class="btn btn-success" />
+        </div>
+    </form>
+</div>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Идентификатор
+            </th>
+            <th>
+                FEN
+            </th>
+            <th>
+                Статус игры
+            </th>
+            <th>
+                Победитель
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            @if(item.WhoWin == "no winner")
+            {
+                <td>
+                    Нет победителя
+                </td>
+            }
+            else
+            {
+            <td>
+                @Html.DisplayFor(modelItem => item.WhoWin)
+            </td>
+            }
+            <td>
+                <a asp-action="Game" asp-route-game="@item.Id">Войти</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

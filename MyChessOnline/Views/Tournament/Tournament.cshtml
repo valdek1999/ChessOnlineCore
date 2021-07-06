@@ -1,0 +1,387 @@
+﻿@model MyChessOnline.Tournament
+@using Microsoft.AspNetCore.Identity;
+@{
+    var CountPlayer = Model.CountPlayer;
+    var Participants = (List<TournamentParticipant>)ViewBag.Parts;
+    var Games = (List<Game>)ViewBag.Games;
+    var Users = (List<IdentityUser>)ViewBag.Users;
+    string SlotText(int slot)
+    {
+        var p = Participants.FirstOrDefault(x => x.Slot == slot);
+
+        if(p !=null)
+        {
+            var u = Users.FirstOrDefault(x => x.Id == p.UserId);
+            return $"Игрок: {u.UserName.Split('@')[0]}";
+        }
+        return $"Слот {slot}";
+    }
+}
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="~/css/tournament.css" />
+
+<div>
+    <h4>@Html.DisplayFor(model => model.NamingTournament)</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Количество слотов:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CountPlayer)
+        </dd>
+        <dt class="col-sm-2">
+            Занято слотов:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CountConnect)
+        </dd>
+        <dt class="col-sm-2">
+            Статус турнира:
+        </dt>
+        <dd class="col-sm-10">
+            Ожидание игроков
+        </dd>
+    </dl>
+</div>
+
+@if(Model.CountPlayer == 2)
+{
+    <ul class="round-table round">
+        <li class="round">
+            <ul>
+                <li>
+                    <a asp-action="ChoiseSlot" asp-route-game="@Games[0]">Slot1</a>
+                </li>
+                <li>
+                    <a asp-action="ChoiseSlot" asp-route-game="@Games[0]">Slot2</a>
+                </li>
+            </ul>
+            <p>
+                Id: @Games[0].Id<br />
+                Next: @Games[0].NextGameId<br />
+                Win: @Games[0].WhoWin<br />
+            </p>
+        </li>
+    </ul>
+
+}
+
+@if(Model.CountPlayer == 4)
+{
+    <div class="round-table round">
+        <ul>
+            <li class="round">
+                <ul>
+                    <li><p><a asp-action="ChoiseSlot" asp-route-game=@Games[0].Id asp-route-slot="1">@SlotText(1)</a></p></li>
+                    <li><p><a asp-action="ChoiseSlot" asp-route-game=@Games[0].Id asp-route-slot="2">@SlotText(2)</a></p></li>
+                </ul>
+                <p>
+                    Id: @Games[0].Id<br />
+                    Next: @Games[0].NextGameId<br />
+                    Win: @Games[0].WhoWin<br />
+                </p>
+            </li>
+            <li class="round">
+                <ul>
+                    <li><p><a asp-action="ChoiseSlot" asp-route-game=@Games[1].Id asp-route-slot="3">@SlotText(3)</a></p></li>
+                    <li><p><a asp-action="ChoiseSlot" asp-route-game=@Games[1].Id asp-route-slot="4">@SlotText(4)</a></p></li>
+                </ul>
+                <p>
+                    Id: @Games[1].Id<br />
+                    Next: @Games[1].NextGameId<br />
+                    Win: @Games[1].WhoWin<br />
+                </p>
+            </li>
+        </ul>
+        <p>
+            Id: @Games[2].Id<br />
+            Next: @Games[2].NextGameId<br />
+            Win: @Games[2].WhoWin<br />
+        </p>
+    </div>
+}
+
+@if(Model.CountPlayer == 8)
+{
+    <div class="round-table round">
+        <ul>
+            <li class="round">
+                <ul>
+                    <li class="round">
+                        <ul>
+                            <li>
+                                <p><a asp-action="ChoiseSlot" asp-route-game=@Games[0].Id asp-route-slot="1">@SlotText(1)</a></p>
+                            </li>
+                            <li>
+                                <p><a asp-action="ChoiseSlot" asp-route-game=@Games[0].Id asp-route-slot="2">@SlotText(2)</a></p>
+                            </li>
+                        </ul>
+                        <p>
+                            Id: @Games[0].Id<br />
+                            Next: @Games[0].NextGameId<br />
+                            Win: @Games[0].WhoWin<br />
+                        </p>
+                    </li>
+                    <li class="round">
+                        <ul>
+                            <li>
+                                <p><a asp-action="ChoiseSlot" asp-route-game=@Games[1].Id asp-route-slot="3">@SlotText(3)</a></p>
+                            </li>
+                            <li>
+                                <p><a asp-action="ChoiseSlot" asp-route-game=@Games[1].Id asp-route-slot="4">@SlotText(4)</a></p>
+                            </li>
+                        </ul>
+                        <p>
+                            Id: @Games[1].Id<br />
+                            Next: @Games[1].NextGameId<br />
+                            Win: @Games[1].WhoWin<br />
+                        </p>
+                    </li>
+                </ul>
+                <p>
+                    Id: @Games[4].Id<br />
+                    Next: @Games[4].NextGameId<br />
+                    Win: @Games[4].WhoWin<br />
+                </p>
+            </li>
+            <li class="round">
+                <ul>
+                    <li class="round">
+                        <ul>
+                            <li>
+                                <p><a asp-action="ChoiseSlot" asp-route-game=@Games[2].Id asp-route-slot="5">@SlotText(5)</a></p>
+                            </li>
+                            <li>
+                                <p><a asp-action="ChoiseSlot" asp-route-game=@Games[2].Id asp-route-slot="6">@SlotText(6)</a></p>
+                            </li>
+                        </ul>
+                        <p>
+                            Id: @Games[2].Id<br />
+                            Next: @Games[2].NextGameId<br />
+                            Win: @Games[2].WhoWin<br />
+                        </p>
+                    </li>
+                    <li class="round">
+                        <ul>
+                            <li>
+                                <p><a asp-action="ChoiseSlot" asp-route-game=@Games[3].Id asp-route-slot="7">@SlotText(7)</a></p>
+                            </li>
+                            <li>
+                                <p><a asp-action="ChoiseSlot" asp-route-game=@Games[3].Id asp-route-slot="8">@SlotText(8)</a></p>
+                            </li>
+                        </ul>
+                        <p>
+                            Id: @Games[3].Id<br />
+                            Next: @Games[3].NextGameId<br />
+                            Win: @Games[3].WhoWin<br />
+                        </p>
+                    </li>
+                </ul>
+                <p>
+                    Id: @Games[5].Id<br />
+                    Next: @Games[5].NextGameId<br />
+                    Win: @Games[5].WhoWin<br />
+                </p>
+            </li>
+        </ul>
+        <p>
+            Id: @Games[6].Id<br />
+            Next: @Games[6].NextGameId<br />
+            Win: @Games[6].WhoWin<br />
+        </p>
+    </div>
+}
+
+@if(Model.CountPlayer == 16)
+{
+    <div class="round-table round">
+        <ul>
+            <li class="round">
+                <ul>
+                    <li class="round">
+                        <ul>
+                            <li class="round">
+                                <ul>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[0].Id asp-route-slot="1">@SlotText(1)</a></p>
+                                    </li>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[0].Id asp-route-slot="2">@SlotText(2)</a></p>
+                                    </li>
+                                </ul>
+                                <p>
+                                    Id: @Games[0].Id<br />
+                                    Next: @Games[0].NextGameId<br />
+                                    Win: @Games[0].WhoWin<br />
+                                </p>
+                            </li>
+                            <li class="round">
+                                <ul>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[1].Id asp-route-slot="3">@SlotText(3)</a></p>
+                                    </li>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[1].Id asp-route-slot="4">@SlotText(4)</a></p>
+                                    </li>
+                                </ul>
+                                <p>
+                                    Id: @Games[1].Id<br />
+                                    Next: @Games[1].NextGameId<br />
+                                    Win: @Games[1].WhoWin<br />
+                                </p>
+                            </li>
+                        </ul>
+                        <p>
+                            Id: @Games[5].Id<br />
+                            Next: @Games[5].NextGameId<br />
+                            Win: @Games[5].WhoWin<br />
+                        </p>
+                    </li>
+                    <li class="round">
+                        <ul>
+                            <li class="round">
+                                <ul>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[2].Id asp-route-slot="5">@SlotText(5)</a></p>
+                                    </li>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[2].Id asp-route-slot="6">@SlotText(6)</a></p>
+                                    </li>
+                                </ul>
+                                <p>
+                                    Id: @Games[2].Id<br />
+                                    Next: @Games[2].NextGameId<br />
+                                    Win: @Games[2].WhoWin<br />
+                                </p>
+                            </li>
+                            <li class="round">
+                                <ul>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[3].Id asp-route-slot="7">@SlotText(7)</a></p>
+                                    </li>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[3].Id asp-route-slot="8">@SlotText(8)</a></p>
+                                    </li>
+                                </ul>
+                                <p>
+                                    Id: @Games[3].Id<br />
+                                    Next: @Games[3].NextGameId<br />
+                                    Win: @Games[3].WhoWin<br />
+                                </p>
+                            </li>
+                        </ul>
+                        <p>
+                            Id: @Games[4].Id<br />
+                            Next: @Games[4].NextGameId<br />
+                            Win: @Games[4].WhoWin<br />
+                        </p>
+                    </li>
+                </ul>
+                <p>
+                    Id: @Games[12].Id<br />
+                    Next: @Games[12].NextGameId<br />
+                    Win: @Games[12].WhoWin<br />
+                </p>
+            </li>
+            <li class="round">
+                <ul>
+                    <li class="round">
+                        <ul>
+                            <li class="round">
+                                <ul>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[8].Id asp-route-slot="9">@SlotText(9)</a></p>
+                                    </li>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[8].Id asp-route-slot="10">@SlotText(10)</a></p>
+                                    </li>
+                                </ul>
+                                <p>
+                                    Id: @Games[8].Id<br />
+                                    Next: @Games[8].NextGameId<br />
+                                    Win: @Games[8].WhoWin<br />
+                                </p>
+                            </li>
+                            <li class="round">
+                                <ul>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[9].Id asp-route-slot="11">@SlotText(11)</a></p>
+                                    </li>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[9].Id asp-route-slot="12">@SlotText(12)</a></p>
+                                    </li>
+                                </ul>
+                                <p>
+                                    Id: @Games[9].Id<br />
+                                    Next: @Games[9].NextGameId<br />
+                                    Win: @Games[9].WhoWin<br />
+                                </p>
+                            </li>
+                        </ul>
+                        <p>
+                            Id: @Games[10].Id<br />
+                            Next: @Games[10].NextGameId<br />
+                            Win: @Games[10].WhoWin<br />
+                        </p>
+                    </li>
+                    <li class="round">
+                        <ul>
+                            <li class="round">
+                                <ul>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[6].Id asp-route-slot="13">@SlotText(13)</a></p>
+                                    </li>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[6].Id asp-route-slot="14">@SlotText(14)</a></p>
+                                    </li>
+                                </ul>
+                                <p>
+                                    Id: @Games[6].Id<br />
+                                    Next: @Games[6].NextGameId<br />
+                                    Win: @Games[6].WhoWin<br />
+                                </p>
+                            </li>
+                            <li class="round">
+                                <ul>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[7].Id asp-route-slot="15">@SlotText(15)</a></p>
+                                    </li>
+                                    <li>
+                                        <p><a asp-action="ChoiseSlot" asp-route-game=@Games[7].Id asp-route-slot="16">@SlotText(16)</a></p>
+                                    </li>
+                                </ul>
+                                <p>
+                                    Id: @Games[7].Id<br />
+                                    Next: @Games[7].NextGameId<br />
+                                    Win: @Games[7].WhoWin<br />
+                                </p>
+                            </li>
+                        </ul>
+                        <p>
+                            Id: @Games[11].Id<br />
+                            Next: @Games[11].NextGameId<br />
+                            Win: @Games[11].WhoWin<br />
+                        </p>
+                    </li>
+                </ul>
+                <p>
+                    Id: @Games[13].Id<br />
+                    Next: @Games[13].NextGameId<br />
+                    Win: @Games[13].WhoWin<br />
+                </p>
+            </li>
+        </ul>
+        <p>
+            Id: @Games[14].Id<br />
+            Win: @Games[14].WhoWin<br />
+        </p>
+    </div>
+}
+
+
+<div>
+    <a asp-action="Index">Вернуться к списку игроков</a>
+</div>

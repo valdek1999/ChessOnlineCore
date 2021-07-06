@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Game>
+@{
+    
+}
+
+<form asp-action="IndexPost" asp-controller="Chess">
+    <div class="form-group">
+        <input type="submit" value="Добавить новую игру" class="btn btn-default" />
+    </div>
+</form>
+
+
+<form asp-action="Join" asp-controller="Chess">
+    <div class="form-group">
+        <input type="text" name="Id"/>
+        <input type="submit" value="Подключить к игре по id" class="btn btn-default" />
+    </div>
+</form>
+
+
+@foreach(var el in Model)
+{
+    <li>
+        <div>
+            @el.Id<br />
+            @el.Fen<br />
+            @el.Status<br />
+        </div>
+        <br />
+    </li>
+    <form asp-action="Game" asp-controller="Chess">
+        <div class="form-group">
+            <input type="hidden" name="game" value="@el.Id" />
+            <input type="submit" value="Войти в игру" class="btn btn-default" />
+        </div>
+    </form><br />
+}
